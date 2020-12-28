@@ -150,6 +150,12 @@
 
    - 表示逻辑与时。建议使用&&， &&具有短路运算    :heart:
 
+   - 将复杂的对象抽象为类  :heart:
+
+   - 方法中不要有多余的临时变量，该返回就return  :heart:
+
+   - 方法中没有用的形参要删掉  :heart:
+
      
 
    **变量与常量**
@@ -197,6 +203,7 @@
         - String[]  result = {};
         - String[] result = new String[0];
         - Collections.emptyList();
+   - JS中find和filter的比较
 
    
 
