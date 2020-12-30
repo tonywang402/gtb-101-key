@@ -57,6 +57,14 @@
 
    > 针对小块功能，严格按照输入和返回来写   :yellow_heart:
 
+   > 尽快的让代码编译，保证没有其他的错误
+
+   寻找可以实现需求的方法 :cactus:
+
+   - 通过idea来查找合适的方法，通过阅读Javadoc确认
+   - Ctrl  +  F12 查看源代码中所有的方法，可以搜索
+   - 
+
 4. 调试bug
 
    > 需要使用工具调试并观测中间过程。为了在调试中找到问题，必须能够首先阅读代码，并预测执行的结果
@@ -84,7 +92,11 @@
 
  - 代码质量：
 
-   - Java使用Alibaba的代码格式检查插件  :yellow_heart: :green_heart:
+   - Intellij使用插件
+
+     - Alibaba的代码格式检查插件  :yellow_heart: :green_heart:
+     - SpotBugs
+     - SonarLint
 
    - JavaScript的格式参考repository中的lint设置 
 
@@ -97,6 +109,9 @@
     - 及时运行测试，随时check代码静态分析的结果
 
    - 所有intellij中合理的警告都应该引起重视  :heart:
+
+     - 波浪线
+     - 黄色方块
 
    - 所有ESLINT中合理警告也应该引起重视   :heart:
 
@@ -160,63 +175,81 @@
 
    **变量与常量**
 
-   -    对于对象引用的变量声明，也应该使用final声明    ​ ​ :heart:
-   -    变量声明为接口，不要声明具体的类型，hashmap建议用Map arrayList应该用list，方便以后的扩展 :heart:
-   -    对于直接出现的数字，没有明确意义，叫做magic number，要用final type声明为常量 :heart::heart:  :cake:
-   -    不会改变的变量，包括可能会改变，但是在自己作用域里面不变的话，都要用final或const声明为常量 :heart:  :cake:
-   -    对于重复的常量初始化，包括调用一些方法得到值，可以抽出静态常量的field  :question:
-   -    变量声明之处应该尽可能贴近使用它的地方  :heart:
-   -    变量是不要有冗余的初始化
-   -    对于变量声明之后，如果简单操作，就可以用 `Arrays.asList()`  :question:
-   -    在field的标准下，如果将primitive变量用作常量，要使用final或者static final	
+   - 对于对象引用的变量声明，也应该使用final声明    ​ ​ :heart:
+   
+   - 变量声明为接口，不要声明具体的类型，hashmap建议用Map arrayList应该用list，方便以后的扩展 :heart:
+   
+   - 对于直接出现的数字，没有明确意义，叫做magic number，要用final type声明为常量 :heart::heart:  :cake:
+   
+   - 不会改变的变量，包括可能会改变，但是在自己作用域里面不变的话，都要用final或const声明为常量 :heart:  :cake:
+   
+   - 对于重复的常量初始化，包括调用一些方法得到值，可以抽出静态常量的field  :question:
 
+   - 变量声明之处应该尽可能贴近使用它的地方  :heart:
+
+   - 变量是不要有冗余的初始化
+
+   - 对于变量声明之后，如果简单操作，就可以用 `Arrays.asList()`  :question:
+   
+   - 在field的标准下，如果将primitive变量用作常量，要使用final或者static final	
+   
+   - 使用 new int[array.length].var 就会生成 int[] ints = new int[array.length]
+   
+  
+   
+     
    
 
+   
+   
+   
    **数字和字符串**
-
+   
       - 不能使用==比较double或者float的值 ，更不能去检测字符串 :heart:
       - == 与 ===区别   :heart:
-        - == 会转换比较的类型
+     - == 会转换比较的类型
         - === 不会转换比较的类型
-        - 两者都会对一些特殊值比较
+     - 两者都会对一些特殊值比较
       - 判断字符串是否既不是""也不是null​ ​  ​  :heart:
 
    ```java
-   if (text == null || "".equals(text)) 
+   if (null == textxxxxxx || "".equals(text)) 
+   
+   if (Object.isNull(text) || text.isEmpty())
    ```
-
+   
       - 大量循环的字符串拼接应使用**StringBuilder** 或者 **String.format** 
-      - 同样重复在string上使用**replace**也属于这种情况
+   - 同样重复在string上使用**replace**也属于这种情况
       - 如果没有同步要求，不要使用**stringbuffer**
-   - 迭代字符串不需要将其转化为数组  :grey_question:
+- 迭代字符串不需要将其转化为数组  :grey_question:
    - 格式化指定宽度的字符串 :heart:  :cake:  
-     - JavaScript   padEnd()方法
+  - JavaScript   padEnd()方法
      - Java             “-” + width + “s”
-
+   
    
 
    **数组和集合**
 
       - 集合选择合适
-      - 而且使用方法要正确
+   - 而且使用方法要正确
       - 创建一个空数组 :heart:  :cake:
         - String[]  result = {};
         - String[] result = new String[0];
         - Collections.emptyList();
    - JS中find和filter的比较
-
    
-
+   
+   
    **stream**
-
+   
       - stream处理过程中不应存在无效的termination
       - 对用使用stream解决的map、filter、reduce等问题就不要使用传统的循环
    - 对于应当使用optional的场景，就不要使用null推断
-
    
-
+   
+   
    **异常处理**   :heart_eyes:
-
+   
    - JS抛出异常 throw new Error("");  
 
 
@@ -225,7 +258,7 @@
 
 ##### 快捷键
 
-- Java
+- Intellij
   - Ctrl + \                        快速多行注释
   - Shift + F6                    批量修改变量名
   - Alt + shift + enter      使用idea建议
@@ -233,10 +266,21 @@
   - Ctrl + Q                      渲染注释
   - Ctrl + Alt + L              格式化
   - 长按 Ctrl + Shift + F  全文搜索
-- shift +  F10                 运行刚才的测试 :heart:
+  - shift +  F10                 运行刚才的测试 :heart:
   - Ctrl + Alt + m             抽取方法  :heart:
+  - Ctrl  + Alt + o             删除没有用到的import
+  - Ctrl  + Shift +enter    光标跳到这行的最后
+  - (logical condition).if   快速生成if判断语句
+  - .for                               快速生成for循环语句
+  - F2                                 可以查看提示
+  - Ctrl  +  F12                  查看源代码中所有的方法
+  - Ctrl  +   shift  +  A       可以找actions搜索操作
+  - Alt + 数字                    隐藏或显示窗口
+  - Alt  + shift  + 方向键  移动代码
   
-- JavaScript
+  
+  
+- VS Code
 
   - Ctrl + ？                单行快速注释
 
