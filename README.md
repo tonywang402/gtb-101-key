@@ -9,7 +9,8 @@
 1. 不是通过测试的用例数目来衡量，而是以功能点的测试是否通过来衡量
 2. 根据学院repository来评分，以teacher repository来评价需求的正确性
 3. 如果import了未引用的package导致语法错误的，总分扣1分
-   - 要检查引入的包，如果引入了没有用的包，要删掉  :heart:
+
+   > 要检查引入的包，如果引入了没有用的包，要删掉    Ctrl + Alt + o    :accept:
 
 
 
@@ -32,6 +33,11 @@
    - 需求有问题，必须有文档作为佐证，或者能够从文档中进行推断
    - 需求问题往往由于 程序细节 造成的，如果程序细节能够完成，那就不是需求问题
 
+   完整了解需求 :accept:
+
+   - 读清楚需求，了解所有的需求
+   - 将需求进行划分
+
 2. 程序逻辑
 
    > 自顶向下：将一个大需求，按照逻辑拆分成小需求，需求可以先用人话写出来   :heart:  :cake: 
@@ -40,12 +46,28 @@
 
    > 简单需求是否要拆分  :dancer:
    >
-   > 完整的理解需求，而不是为了过测试
+   > 完整的理解需求，而不是为了过测试 :question:
    >
    > 最后要捋一遍测试，看是否真的通过
 
+3. 写成程序
+
+   > 针对小块功能，严格按照输入和返回来写   :yellow_heart:
+
+   > 尽快的让代码编译，保证没有其他的错误  :accept:
+
+   确认函数  :accept:
+
    1. 写出想要什么，输入是什么，以及函数名字，也就是短逻辑，先不考虑实现  :heart:  :cake: :cactus:
    2. 用Alt+shift+enter创建函数   :heart:  :cake: 
+
+   寻找可以实现需求的方法 :rabbit:
+
+   - 通过idea来查找合适的方法，通过阅读Javadoc确认
+   - Ctrl  +  F12 查看源代码中所有的方法，可以搜索
+   - 通过Google搜索
+
+   
 
    > 严格实现需求
 
@@ -53,24 +75,14 @@
    - 要完成文档中交待的功能
    - 可以查看方法的描述Ctrl+Q来判读此方法能否满足需要的功能 ​ ​ :yellow_heart:
 
-3. 写成程序
-
-   > 针对小块功能，严格按照输入和返回来写   :yellow_heart:
-
-   > 尽快的让代码编译，保证没有其他的错误
-
-   寻找可以实现需求的方法 :cactus:
-
-   - 通过idea来查找合适的方法，通过阅读Javadoc确认
-   - Ctrl  +  F12 查看源代码中所有的方法，可以搜索
-   - 
-
 4. 调试bug
 
    > 需要使用工具调试并观测中间过程。为了在调试中找到问题，必须能够首先阅读代码，并预测执行的结果
 
    - 设置断点debug调试  :gift_heart:
    - 使用idea给的建议   :heart:  :cake: :cactus:
+     - 波浪线
+     - 黄色方块
 
 
 
@@ -95,8 +107,8 @@
    - Intellij使用插件
 
      - Alibaba的代码格式检查插件  :yellow_heart: :green_heart:
-     - SpotBugs
-     - SonarLint
+     - SpotBugs  :accept:
+     - SonarLint  :accept:
 
    - JavaScript的格式参考repository中的lint设置 
 
@@ -109,9 +121,6 @@
     - 及时运行测试，随时check代码静态分析的结果
 
    - 所有intellij中合理的警告都应该引起重视  :heart:
-
-     - 波浪线
-     - 黄色方块
 
    - 所有ESLINT中合理警告也应该引起重视   :heart:
 
@@ -193,66 +202,65 @@
    
    - 在field的标准下，如果将primitive变量用作常量，要使用final或者static final	
    
-   - 使用 new int[array.length].var 就会生成 int[] ints = new int[array.length]
+   - 使用 new int[array.length].var 就会生成 int[] ints = new int[array.length]  :accept:
    
-  
-   
-     
-   
-
-   
-   
+    
    
    **数字和字符串**
    
-      - 不能使用==比较double或者float的值 ，更不能去检测字符串 :heart:
+   - 不能使用==比较double或者float的值 ，更不能去检测字符串 :heart:
       - == 与 ===区别   :heart:
-     - == 会转换比较的类型
+          - == 会转换比较的类型
         - === 不会转换比较的类型
-     - 两者都会对一些特殊值比较
+          - 两者都会对一些特殊值比较
       - 判断字符串是否既不是""也不是null​ ​  ​  :heart:
-
+   
    ```java
    if (null == textxxxxxx || "".equals(text)) 
    
    if (Object.isNull(text) || text.isEmpty())
    ```
-   
+
       - 大量循环的字符串拼接应使用**StringBuilder** 或者 **String.format** 
    - 同样重复在string上使用**replace**也属于这种情况
       - 如果没有同步要求，不要使用**stringbuffer**
-- 迭代字符串不需要将其转化为数组  :grey_question:
+   
+   - 迭代字符串不需要将其转化为数组	
+   
    - 格式化指定宽度的字符串 :heart:  :cake:  
-  - JavaScript   padEnd()方法
+     - JavaScript   padEnd()方法
      - Java             “-” + width + “s”
-   
-   
 
-   **数组和集合**
+ 
 
-      - 集合选择合适
-   - 而且使用方法要正确
-      - 创建一个空数组 :heart:  :cake:
-        - String[]  result = {};
-        - String[] result = new String[0];
-        - Collections.emptyList();
-   - JS中find和filter的比较
-   
-   
-   
-   **stream**
-   
-      - stream处理过程中不应存在无效的termination
-      - 对用使用stream解决的map、filter、reduce等问题就不要使用传统的循环
-   - 对于应当使用optional的场景，就不要使用null推断
-   
-   
-   
-   **异常处理**   :heart_eyes:
-   
-   - JS抛出异常 throw new Error("");  
+ **数组和集合**
 
 
+- 集合选择合适
+
+ - 而且使用方法要正确
+    - 创建一个空数组 :heart:  :cake:
+      - String[]  result = {};
+      - String[] result = new String[0];
+      - Collections.emptyList();
+ - JS中find和filter的比较
+
+ 
+
+ **stream**
+
+
+- stream处理过程中不应存在无效的termination
+- 对用使用stream解决的map、filter、reduce等问题就不要使用传统的循环
+
+ - 对于应当使用optional的场景，就不要使用null推断
+
+ 
+
+ **异常处理**   :heart_eyes:
+
+
+ - JS抛出异常 throw new Error("");  
 
 
 
@@ -283,12 +291,13 @@
 - VS Code
 
   - Ctrl + ？                单行快速注释
-
   - Ctrl + F2                批量修改变量名  :heart:
   - shift + .                  quick fix   :heart:
   - Ctrl + 方向键         在单词之间移动  :heart:
   - shift + 方向键       逐个选择code   :heart:
   - Ctrl + shift + 方向键  按单词选择code    :heart:
+
+  
 
 - git
 
