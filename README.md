@@ -63,8 +63,9 @@
 
    寻找可以实现需求的方法 :rabbit:
 
-   - 通过idea来查找合适的方法，通过阅读Javadoc确认
-   - Ctrl  +  F12 查看源代码中所有的方法，可以搜索
+   - 通过idea来查找合适的方法，通过关键词过滤，通过阅读Javadoc确认
+     - Ctrl  +  F12 查看源代码中所有的方法，可以搜索关键词过滤
+     - 通过搜索首字母会更快
    - 通过Google搜索
 
    
@@ -277,13 +278,16 @@
   - shift +  F10                 运行刚才的测试 :heart:
   - Ctrl + Alt + m             抽取方法  :heart:
   - Ctrl  + Alt + o             删除没有用到的import
-  - Ctrl  + Shift +enter    光标跳到这行的最后
-  - (logical condition).if   快速生成if判断语句
+  - Ctrl  + Shift +enter    光标跳到这段代码之后
+  - shift  + enter             光标跳到这行代码之后
+  - logical condition.if   快速生成if判断语句
+  - new int[].var             快速声明变量
   - .for                               快速生成for循环语句
   - F2                                 可以查看提示
   - Ctrl  +  F12                  查看源代码中所有的方法
   - Ctrl  +   shift  +  A       可以找actions搜索操作
   - Alt + 数字                    隐藏或显示窗口
+  - Ctrl + shift +  F12      只显示代码编辑区
   - Alt  + shift  + 方向键  移动代码
   
   
