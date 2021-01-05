@@ -67,6 +67,7 @@
      - Ctrl  +  F12 查看源代码中所有的方法，可以搜索关键词过滤
      - 通过搜索首字母会更快
    - 通过Google搜索
+   - 当不知道方法需要提供什么参数时，尝试new 然后得到提示
 
    
 
@@ -231,6 +232,7 @@
    - 格式化指定宽度的字符串 :heart:  :cake:  
      - JavaScript   padEnd()方法
      - Java             “-” + width + “s”
+   - Number.isNaN 要比全局的isNaN 更合适
 
  
 
@@ -244,7 +246,12 @@
       - String[]  result = {};
       - String[] result = new String[0];
       - Collections.emptyList();
+    
  - JS中find和filter的比较
+
+ - JS中可以用Array.isArray()方法
+
+    
 
  
 
@@ -268,30 +275,70 @@
 ##### 快捷键
 
 - Intellij
-  - Ctrl + \                        快速多行注释
-  - Shift + F6                    批量修改变量名
-  - Alt + shift + enter      使用idea建议
-  - Ctrl + B                       访问方法
-  - Ctrl + Q                      渲染注释
-  - Ctrl + Alt + L              格式化
-  - 长按 Ctrl + Shift + F  全文搜索
-  - shift +  F10                 运行刚才的测试 :heart:
-  - Ctrl + Alt + m             抽取方法  :heart:
-  - Ctrl  + Alt + o             删除没有用到的import
-  - Ctrl  + Shift +enter    光标跳到这段代码之后
-  - shift  + enter             光标跳到这行代码之后
-  - logical condition.if   快速生成if判断语句
-  - new int[].var             快速声明变量
-  - .for                               快速生成for循环语句
-  - F2                                 可以查看提示
-  - Ctrl  +  F12                  查看源代码中所有的方法
-  - Ctrl  +   shift  +  A       可以找actions搜索操作
-  - Alt + 数字                    隐藏或显示窗口
-  - Ctrl + shift +  F12      只显示代码编辑区
-  - Alt  + shift  + 方向键  移动代码
+
+  - 窗口区域
+    - Ctrl + shift +  F12      只显示代码编辑区
+    - Alt + 数字                    隐藏或显示窗口
+    - Alt + 左右键              在打开的文件之间切换
+    - Ctrl + F4                    关闭现在打开的文件
+  - 切换文件
+
+    - 长按 Ctrl + Shift + F    全文搜索
+    - Alt + 1                          调出文件树
+    - Ctrl + shift + 左键    返回编辑的位置
+    - Ctrl + E                      最近访问的文件的列表
+
+  - 移动光标与选取代码
+
+    - Ctrl  + Shift +enter    光标跳到这段代码之后
+    - shift + enter               光标跳到这行代码之后
+    - Ctrl  +  左右键             光标在单词之间跳转
+    - shift  + 左右键             挨个选择代码
+    - Ctrl  +  shift + 左右键   选择单词代码
+    - shift  + 上下键             按行来选中代码
+    - Alt  + shift  + 方向键   移动代码
+
+  - 测试
+
+    - Ctrl + shift + T             在测试与主程序之间切换
+    - shift + F10                    运行之前的测试
+    - Ctrl + shift  + F10         运行测试
+
+  - 方法
+
+    - Ctrl  +  F12                  查看源代码中所有的方法
+    - Ctrl + B                       访问方法
+    - Ctrl + Q                      渲染注释
+    - Alt + shift + enter      使用idea建议
+    - F2                                 获取idea建议
+
+    - logical condition.if          快速生成if判断语句
+    - new int[].var                    快速声明变量
+    - .for                                     快速生成for循环语句
+
+  - 格式
+
+    - Shift + F6                    批量修改变量名
+    - Ctrl + Alt + L              格式化
+    - Ctrl  + Alt + o             删除没有用到的import
+
+  - 抽取
+
+    - Ctrl + Alt + m             抽取方法  
+    - Ctrl +  Alt  + c             抽取常量
+    - Ctrl +  Alt  + v             抽取变量
+
+  - 注释
+
+    - Ctrl + \                        快速多行注释
+
+  - 快捷键 
+
+    - Ctrl  +   shift  +  A       可以找actions搜索操作
+    - Ctrl  +  Alt  +  S        找到keymap   找到相应快捷键进行设置
+
   
-  
-  
+
 - VS Code
 
   - Ctrl + ？                单行快速注释
