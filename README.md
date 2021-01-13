@@ -36,7 +36,7 @@
    完整了解需求 :accept:
 
    - 读清楚需求，了解所有的需求
-   - 将需求进行划分
+   - 将需求进行拆解，一步步拆解成有价值的最小场景
 
 2. 程序逻辑
 
@@ -46,7 +46,7 @@
 
    > 简单需求是否要拆分  :dancer:
    >
-   > 完整的理解需求，而不是为了过测试 :question:
+   > 先不择手段通过测试，再思考和重构，完整的理解需求，而不是为了过测试 :question:
    >
    > 最后要捋一遍测试，看是否真的通过
 
@@ -55,6 +55,8 @@
    > 针对小块功能，严格按照输入和返回来写   :yellow_heart:
 
    > 尽快的让代码编译，保证没有其他的错误  :accept:
+
+   > 不要过早地进行性能优化
 
    确认函数  :accept:
 
@@ -160,6 +162,10 @@
 
    - 代码嵌套不能超过三层 :heart:
 
+   - 每个方法的长度不要超过10行
+
+   - 类的长度不要超过80到100行
+
    - for循环中的if 用continue防止多层嵌套   :heart:
 
    - 不要使用否定的函数逻辑
@@ -183,23 +189,23 @@
    - 方法中没有用的形参要删掉  :heart:
 
      
-
+   
    **变量与常量**
-
+   
    - 对于对象引用的变量声明，也应该使用final声明    ​ ​ :heart:
    
    - 变量声明为接口，不要声明具体的类型，hashmap建议用Map arrayList应该用list，方便以后的扩展 :heart:
    
    - 对于直接出现的数字，没有明确意义，叫做magic number，要用final type声明为常量 :heart::heart:  :cake:
-   
+
    - 不会改变的变量，包括可能会改变，但是在自己作用域里面不变的话，都要用final或const声明为常量 :ice_cream:
-   
+
    - 对于重复的常量初始化，包括调用一些方法得到值，可以抽出静态常量的field  :question:
 
    - 变量声明之处应该尽可能贴近使用它的地方  :heart:
-
+   
    - 变量是不要有冗余的初始化
-
+   
    - 对于变量声明之后，如果简单操作，就可以用 `Arrays.asList()`  :question:
    
    - 在field的标准下，如果将primitive变量用作常量，要使用final或者static final	
@@ -218,11 +224,11 @@
       - 判断字符串是否既不是""也不是null​ ​  ​  :heart:
    
    ```java
-   if (null == textxxxxxx || "".equals(text)) 
+if (null == textxxxxxx || "".equals(text)) 
    
    if (Object.isNull(text) || text.isEmpty())
    ```
-
+   
       - 大量循环的字符串拼接应使用**StringBuilder** 或者 **String.format** 
    - 同样重复在string上使用**replace**也属于这种情况
       - 如果没有同步要求，不要使用**stringbuffer**
@@ -250,6 +256,10 @@
  - JS中find和filter的比较
 
  - JS中可以用Array.isArray()方法
+
+ - map方法可以有索引
+
+ - js中正则要/\w/
 
     
 
@@ -360,6 +370,7 @@
     - git config --global alias.d diff
     - git config --global alias.last "log -1 HEAD"
     - git config --global alias.lo "log --oneline -n 10"
+  - 打tag
 
 
 
