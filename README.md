@@ -283,6 +283,42 @@ if (null == textxxxxxx || "".equals(text))
 
 
 
+##### 重构方法
+
+在冗长的类抽取出一个独立的类
+
+> 梳理这个方法中的关系依赖图，要构成有向无环图。首先提取叶子节点，然后提取直接依赖叶子节点的方法，然后依次向上，直到提完。
+
+1. extract 字段 
+
+   - 在要提取的字段，Ctrl+shift+Alt+T 选择其中的encapsulate fields 设置get 和 set access
+
+2. extract 方法，并创建类
+
+   - 在要提取的方法，Ctrl+shift+Alt+T 选择其中的extract delegate，选择要抽取的东西，并创建新的类
+
+3. move instance method  F6
+
+   - visibility 一般选择默认的escalate就行，不行的话一层层往上提高级别
+
+4. extract 方法时，遇到循环依赖
+
+   - 通过F6进行抽取方法
+
+   - 把依赖的变量提取出来，并通过Ctrl+Alt+F抽取字段
+   - 然后在字段处，用构造器进行初始化
+   - 然后去它的上层调用，进行初始化
+   - 继续往上，解决参数问题
+   - 向下解决没有用到的参数
+
+**注意**
+
+1. 写代码时要调整合适的方法顺序以及名字，方便抽取
+
+
+
+
+
 ##### 快捷键
 
 - Intellij
