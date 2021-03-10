@@ -453,6 +453,94 @@ if (productList.isEmpty()) {
 return producList;
 ```
 
+
+
+流水线 pipeline 
+
+- 需要整体上需要做的是：
+
+  \n分隔的文本    =>    input line list   => slection line list =>    barcode          =>     product           =>    product group       =>         receipt line   =>   receipt
+
+- 现在这段代码做的是
+
+  `String[]  =>   list<String> =>  list<String>  =>  list<String>  => list<Product> => List<ProductGroup>  => List<String> => String  `
+
+
+
+return 两个结果的方法
+
+1. 利用map
+
+   1. 统计一个list当中item的count
+
+   ```java
+   Map<Product, long> productGroups = products.stream().
+       collect(Collectors.groupingBy(product -> product, Collectors.counting()));
+   ```
+
+   2. 将list变成map后进行排序
+
+   ```java
+   productGroups.keySet().stream()
+       .sorted(new Comparator);
+   
+   productGroups.keySet().stream()
+       .sorted(Comparator.comparing(Product::getBarcode));
+   ```
+
+   3. 获取map中的count
+
+   ```java
+   productGroups.keySet().stream()
+       .map(product -> formatProduct(product, productGroups.get(product)));
+   ```
+
+2. 利用Map.Entry
+
+   ```java
+   Map.Entry<Product, Integer> entry = new AbstractMap.SimpleImmutableEntry<>(count, product);
+   ```
+
+3. 利用class
+
+4. 通过输出参数
+
+   ```java
+   foo.setCount(count);
+   ```
+
+5. 通过数组
+
+   ```java
+   return Collections.nCopies(count, product);
+   
+   list.flatMap(products -> products.stream());
+   ```
+
+6. `List<Pair<product, count>>`
+
+
+
+根据是否是v2版本，判断字符串的有效性
+
+- 通过Ctrl+Alt+F 设置boolean标志位，就不需要重复判断
+
+三元表达式
+
+```java
+Integer count = parts.length > 1 ? Integer.parseInt(parts[1]) : 1;
+```
+
+1-100的正则匹配
+
+```java
+[1-9]|[1-9]\\d|100
+```
+
+
+
+
+
 ##### 快捷键
 
 - Intellij
@@ -460,6 +548,8 @@ return producList;
   - 窗口区域
     - Ctrl + shift +  F12      只显示代码编辑区
     - Alt + 数字                    隐藏或显示窗口
+    - Alt+3 切换到find面板  Alt+4 切换到run面板  F4可以看没有通过的测试
+    - 在测试结果的配置项 可以选择select first failed test when finished，就会每次打开失败的测试
     - Alt + 左右键              在打开的文件之间切换
     - Ctrl + F4                    关闭现在打开的文件
   - 切换文件
@@ -502,6 +592,7 @@ return producList;
     - Shift + F6                    批量修改变量名
     - Ctrl + Alt + L              格式化
     - Ctrl  + Alt + o             删除没有用到的import
+    - Ctrl+Shift+J                能够join lines
 
   - 抽取
 
