@@ -311,13 +311,147 @@ if (null == textxxxxxx || "".equals(text))
    - 继续往上，解决参数问题
    - 向下解决没有用到的参数
 
-**注意**
-
-1. 写代码时要调整合适的方法顺序以及名字，方便抽取
+**注意**：写代码时要调整合适的方法顺序以及名字，方便抽取
 
 
 
+根据不同的状态，抽取相似的子类
 
+1. 所有用构造函数的地方用factory method 进行创建
+2. 添加subclass
+3. 每处用到状态的判断的地方，提出最小范围的方法，在子类中实现
+4. 要把之前的状态判断，现在不用的删除掉
+5. 要调整方法位置，可以把子类放到一个文件夹里 F6
+
+- 使用Ctrl+Shift+Alt+T 选择replace constructor with factory method
+  
+- name一般用create，创建静态方法，调用这个方法，就会创建类
+  
+- 创建subclass，先在父类class前添加abstract ,将构造函数改为protected,create constructor matching super
+
+  - 可以用快捷键添加子类
+  
+  - 也可以手动添加
+
+```java
+public class ParserV1 extends Parser {
+    protected ParserV1(ProductRepository repository) {
+        super(repository);
+    }
+}
+```
+
+
+- 对于判断状态，进行操作的部分，抽取成函数
+
+  1. 将函数内容剪切，函数类型改为protected abstract
+  2. 将子类中进行重载
+  3. 在重载函数中添加对应的处理
+
+
+```java
+public class ParserV1 extends Parser {
+    protected ParserV1(ProductRepository repository) {
+        super(repository);
+    }
+
+    @Override
+    public boolean isV2() {
+        return false;
+    }
+}
+```
+
+
+- 把create不要写死
+
+  在父类中，把Crete也抽到ParserFactory
+
+  然后在ParserFactory中的create方法 Ctrl+Alt+shift+T 中选convert to instance menthod 选this/new Parse Factory()
+
+  把new ParseFactory Ctrl+Alt+F抽取字段，要注入
+  
+  在构造函数中初始化
+  
+  在调用地方，修改参数
+  
+- 判断条件要改为
+
+```java
+public static Parser create(String productSelection, ProductRepository repository) {
+    if (productSelection.startsWith("-v2-\n")) {
+        return new ParserV2(repository);
+    }
+    return new ParserV1(repository);
+}
+```
+
+
+
+异常处理
+
+> 要尽量在靠前的位置，把异常处理掉
+
+异常处理的框架
+
+Ctrl+Alt+T 
+
+```java
+try {
+    if (products.isEmpty()) {
+        throw new EmptyProductListException();
+    }
+} catch (EmptyProductListException e) {
+    return e.getmessage();
+}
+```
+
+```java
+package com.tw.exception;
+
+public class EmptyProductListException extends ReceiptPrinterException {
+    public EmptyProductListException() {
+        super("Empty Product List");
+    }
+}
+```
+
+```java
+package com.tw.exception;
+
+public class ReceiptPrinterException extends RuntimeException {
+    public ReceiptPrinterException(String message) {
+        super(message);
+    }
+}
+```
+
+
+
+collectingAndThen()可以对结果进行附加整理，在有异常处理时，就可以合并进去，增加代码的整洁性
+
+```java
+return selectionLines.stream()
+    .collect(Collectors.collectingAndThen(Collectors.tolist(), list -> 		requireNonEmptyList(list)));
+
+private List<Product> requireNonEmptyList(List<Product> list) {
+    if (list.isEmpty()) {
+        throw new EmptyProductListException();
+    }
+    return list;
+}
+```
+
+```java
+List<Product> productList = selectionLines.stream()
+    .collect(Collectors.tolist());
+
+if (productList.isEmpty()) {
+    throw new EmptyProductListException();
+}
+
+return producList;
+```
 
 ##### 快捷键
 
