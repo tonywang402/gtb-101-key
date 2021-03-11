@@ -285,7 +285,145 @@ if (null == textxxxxxx || "".equals(text))
 
 ##### 重构方法
 
-在冗长的类抽取出一个独立的类
+**流水线 pipeline** 
+
+- 需要整体上需要做的是：
+
+  \n分隔的文本    =>    input line list   => slection line list =>    barcode          =>     product           =>    product group       =>         receipt line   =>   receipt
+
+- 现在这段代码做的是
+
+  `String[]  =>   list<String> =>  list<String>  =>  list<String>  => list<Product> => List<ProductGroup>  => List<String> => String  `
+
+
+
+**异常处理框架**
+
+Ctrl+Alt+T 
+
+```java
+try {
+    if (products.isEmpty()) {
+        throw new EmptyProductListException();
+    }
+} catch (EmptyProductListException e) {
+    return e.getmessage();
+}
+```
+
+```java
+package com.tw.exception;
+
+public class EmptyProductListException extends ReceiptPrinterException {
+    public EmptyProductListException() {
+        super("Empty Product List");
+    }
+}
+```
+
+```java
+package com.tw.exception;
+
+public class ReceiptPrinterException extends RuntimeException {
+    public ReceiptPrinterException(String message) {
+        super(message);
+    }
+}
+```
+
+```java
+products.stream()
+    .filter(selectionLine -> {
+        if (selectionLine.matches("^[0-9A-Z]+$")) {
+            return true;
+        }
+        throw new InvalidInputException();
+    })
+```
+
+
+collectingAndThen()可以对结果进行附加整理，在有异常处理时，就可以合并进去，增加代码的整洁性
+
+```java
+return selectionLines.stream()
+    .collect(Collectors.collectingAndThen(Collectors.tolist(), list -> 		requireNonEmptyList(list)));
+
+private List<Product> requireNonEmptyList(List<Product> list) {
+    if (list.isEmpty()) {
+        throw new EmptyProductListException();
+    }
+    return list;
+}
+```
+
+```java
+List<Product> productList = selectionLines.stream()
+    .collect(Collectors.tolist());
+
+if (productList.isEmpty()) {
+    throw new EmptyProductListException();
+}
+
+return producList;
+```
+
+
+
+**return 两个结果的方法**
+
+1. 利用map
+
+   1. 统计一个list当中item的count
+
+   ```java
+   Map<Product, long> productGroups = products.stream().
+       collect(Collectors.groupingBy(product -> product, Collectors.counting()));
+   ```
+
+   2. 将list变成map后进行排序
+
+   ```java
+   productGroups.keySet().stream()
+       .sorted(new Comparator);
+   
+   productGroups.keySet().stream()
+       .sorted(Comparator.comparing(Product::getBarcode));
+   ```
+
+   3. 获取map中的count
+
+   ```java
+   productGroups.keySet().stream()
+       .map(product -> formatProduct(product, productGroups.get(product)));
+   ```
+
+2. 利用Map.Entry
+
+   ```java
+   Map.Entry<Product, Integer> entry = new AbstractMap.SimpleImmutableEntry<>(count, product);
+   ```
+
+3. 利用class
+
+4. 通过输出参数
+
+   ```java
+   foo.setCount(count);
+   ```
+
+5. 通过数组
+
+   ```java
+   return Collections.nCopies(count, product);
+   
+   list.flatMap(products -> products.stream());
+   ```
+
+6. `List<Pair<product, count>>`
+
+
+
+*在冗长的类抽取出一个独立的类**
 
 > 梳理这个方法中的关系依赖图，要构成有向无环图。首先提取叶子节点，然后提取直接依赖叶子节点的方法，然后依次向上，直到提完。
 
@@ -315,7 +453,7 @@ if (null == textxxxxxx || "".equals(text))
 
 
 
-根据不同的状态，抽取相似的子类
+**根据不同的状态，抽取相似的子类**
 
 1. 所有用构造函数的地方用factory method 进行创建
 2. 添加subclass
@@ -387,155 +525,6 @@ public static Parser create(String productSelection, ProductRepository repositor
 ```
 
 
-
-异常处理
-
-> 要尽量在靠前的位置，把异常处理掉
-
-异常处理的框架
-
-Ctrl+Alt+T 
-
-```java
-try {
-    if (products.isEmpty()) {
-        throw new EmptyProductListException();
-    }
-} catch (EmptyProductListException e) {
-    return e.getmessage();
-}
-```
-
-```java
-package com.tw.exception;
-
-public class EmptyProductListException extends ReceiptPrinterException {
-    public EmptyProductListException() {
-        super("Empty Product List");
-    }
-}
-```
-
-```java
-package com.tw.exception;
-
-public class ReceiptPrinterException extends RuntimeException {
-    public ReceiptPrinterException(String message) {
-        super(message);
-    }
-}
-```
-
-
-
-collectingAndThen()可以对结果进行附加整理，在有异常处理时，就可以合并进去，增加代码的整洁性
-
-```java
-return selectionLines.stream()
-    .collect(Collectors.collectingAndThen(Collectors.tolist(), list -> 		requireNonEmptyList(list)));
-
-private List<Product> requireNonEmptyList(List<Product> list) {
-    if (list.isEmpty()) {
-        throw new EmptyProductListException();
-    }
-    return list;
-}
-```
-
-```java
-List<Product> productList = selectionLines.stream()
-    .collect(Collectors.tolist());
-
-if (productList.isEmpty()) {
-    throw new EmptyProductListException();
-}
-
-return producList;
-```
-
-
-
-流水线 pipeline 
-
-- 需要整体上需要做的是：
-
-  \n分隔的文本    =>    input line list   => slection line list =>    barcode          =>     product           =>    product group       =>         receipt line   =>   receipt
-
-- 现在这段代码做的是
-
-  `String[]  =>   list<String> =>  list<String>  =>  list<String>  => list<Product> => List<ProductGroup>  => List<String> => String  `
-
-
-
-return 两个结果的方法
-
-1. 利用map
-
-   1. 统计一个list当中item的count
-
-   ```java
-   Map<Product, long> productGroups = products.stream().
-       collect(Collectors.groupingBy(product -> product, Collectors.counting()));
-   ```
-
-   2. 将list变成map后进行排序
-
-   ```java
-   productGroups.keySet().stream()
-       .sorted(new Comparator);
-   
-   productGroups.keySet().stream()
-       .sorted(Comparator.comparing(Product::getBarcode));
-   ```
-
-   3. 获取map中的count
-
-   ```java
-   productGroups.keySet().stream()
-       .map(product -> formatProduct(product, productGroups.get(product)));
-   ```
-
-2. 利用Map.Entry
-
-   ```java
-   Map.Entry<Product, Integer> entry = new AbstractMap.SimpleImmutableEntry<>(count, product);
-   ```
-
-3. 利用class
-
-4. 通过输出参数
-
-   ```java
-   foo.setCount(count);
-   ```
-
-5. 通过数组
-
-   ```java
-   return Collections.nCopies(count, product);
-   
-   list.flatMap(products -> products.stream());
-   ```
-
-6. `List<Pair<product, count>>`
-
-
-
-根据是否是v2版本，判断字符串的有效性
-
-- 通过Ctrl+Alt+F 设置boolean标志位，就不需要重复判断
-
-三元表达式
-
-```java
-Integer count = parts.length > 1 ? Integer.parseInt(parts[1]) : 1;
-```
-
-1-100的正则匹配
-
-```java
-[1-9]|[1-9]\\d|100
-```
 
 
 
